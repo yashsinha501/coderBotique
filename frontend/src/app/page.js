@@ -16,7 +16,7 @@ export default function Home() {
   const [editingId, setEditingId] = useState(null); 
 
 
-  // Fetch todos from the backend when the component mounts
+
   useEffect(() => {
     const fetchTodos = async () => {
       const response = await fetch(`${process.env.NEXT_PUBLIC_PRODUCTION_LINK}/todos`);
@@ -47,7 +47,7 @@ export default function Home() {
   const saveEdit = async (index) => {
     const updatedTodo = {
       text: editedText,
-      completed: false, // Update this if you have a completed field
+      completed: false, 
     };
 
     const response = await fetch(`${process.env.NEXT_PUBLIC_PRODUCTION_LINK}/todos/${todos[index].id}`, {
@@ -61,7 +61,7 @@ export default function Home() {
     const data = await response.json();
 
     const updatedTodos = [...todos];
-    updatedTodos[index] = data[0]; // Update the specific todo
+    updatedTodos[index] = data[0]; 
     setTodos(updatedTodos);
     setEditingIndex(null); 
     setEditedText('');  
@@ -70,8 +70,9 @@ export default function Home() {
 
   const handleDelete = async (index) => {
     const todoId = todos[index].id; 
+    console.log(todoId);
 
-    await fetch(`${process.env.NEXT_PUBLIC_PRODUCTION_LINK}/${todoId}`, {
+    await fetch(`${process.env.NEXT_PUBLIC_PRODUCTION_LINK}/todos/${todoId}`, {
       method: 'DELETE',
     });
 
