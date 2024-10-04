@@ -5,18 +5,21 @@ import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
+require('dotenv').config()
+
 
 export default function Home() {
   const [todos, setTodos] = useState([]);
   const [todoText, setTodoText] = useState('');
   const [editingIndex, setEditingIndex] = useState(null);  
   const [editedText, setEditedText] = useState('');  
-  const [editingId, setEditingId] = useState(null);  
+  const [editingId, setEditingId] = useState(null); 
+
 
   // Fetch todos from the backend when the component mounts
   useEffect(() => {
     const fetchTodos = async () => {
-      const response = await fetch('http://localhost:5000/todos');
+      const response = await fetch(`${process.env.NEXT_PUBLIC_PRODUCTION_LINK}/todos`);
       const data = await response.json();
       setTodos(data);
     };
@@ -28,7 +31,7 @@ export default function Home() {
     e.preventDefault();
     if (todoText.trim() === '') return;
 
-    const response = await fetch('http://localhost:5000/todos', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_PRODUCTION_LINK}/todos`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -47,7 +50,7 @@ export default function Home() {
       completed: false, // Update this if you have a completed field
     };
 
-    const response = await fetch(`http://localhost:5000/todos/${todos[index].id}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_PRODUCTION_LINK}/todos/${todos[index].id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -68,7 +71,7 @@ export default function Home() {
   const handleDelete = async (index) => {
     const todoId = todos[index].id; 
 
-    await fetch(`http://localhost:5000/todos/${todoId}`, {
+    await fetch(`${process.env.NEXT_PUBLIC_PRODUCTION_LINK}/${todoId}`, {
       method: 'DELETE',
     });
 
